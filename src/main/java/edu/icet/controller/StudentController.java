@@ -3,19 +3,23 @@ package edu.icet.controller;
 import edu.icet.dto.Student;
 import edu.icet.service.StudentService;
 import edu.icet.service.impl.StudentServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
+@CrossOrigin
+@RequestMapping("/student")
+@RequiredArgsConstructor
 public class StudentController {
 
-    @Autowired
-    StudentService service;
+    final StudentService service;
 
     @GetMapping
-    public List<Student> getStudent(){
+    public Map getStudent(){
         return service.getStudent();
     }
 
@@ -32,5 +36,10 @@ public class StudentController {
     @PutMapping
     public void updateStudent(@RequestBody Student student){
         service.addStudent(student);
+    }
+
+    @GetMapping("/find-by-name/{name}")
+    public List<Student> findByName(@PathVariable String name){
+        return service.findByName(name);
     }
 }
